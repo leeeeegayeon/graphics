@@ -2,16 +2,17 @@
 #include<iostream>
 #include<math.h>
 #define PI 3.141592
-
+bool enlarged = false;
+float scaleFactor = 1.0;
 void drawBox()
 {
 	//Red Cube
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_QUADS);
-	glVertex3f(-0.15, -0.15,0.0);
-	glVertex3f(0.15, -0.15,0.0);
-	glVertex3f(0.15, 0.15,0.0);
-	glVertex3f(-0.15, 0.15,0.0);
+	glVertex3f(-0.15, -0.15, 0.0);
+	glVertex3f(0.15, -0.15, 0.0);
+	glVertex3f(0.15, 0.15, 0.0);
+	glVertex3f(-0.15, 0.15, 0.0);
 	glEnd();
 	glLoadIdentity();
 	// Translation & Rotation – 역으로 transformation 수행
@@ -45,20 +46,25 @@ void drawBox()
 	glRotatef(45.0, 0.0, 0.0, 1.0);
 	glColor3f(1.0, 1.0, 0.0);
 	glutSolidCube(0.3);
-	//skyblue Cube
 	glLoadIdentity();
+	if (enlarged) {
+		glTranslatef(1.0, -1.0, 0.0);
+		glScalef(scaleFactor, scaleFactor, 0.0);
+		glTranslatef(-1.0, 1.0, 0.0);
+	}
+	//skyblue Cube
 	glTranslatef(0.85, -0.85, 0.0);
 	glColor3f(0.0, 1.0, 1.0);
 	glutSolidCube(0.3);
-
-
 	
+
 }
+
 
 void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 	glPushMatrix();
 	glRotatef(0.0, 1.0, 1.0, 1.0);
 	drawBox();
@@ -71,7 +77,7 @@ void display(void)
 void xyzRotate(unsigned char mode)
 {
 	switch (mode) {
-	case 'x': glRotatef(10.0, 1.0, 0.0, 0.0); break; 
+	case 'x': glRotatef(10.0, 1.0, 0.0, 0.0); break;
 	case 'y': glRotatef(10.0, 0.0, 1.0, 0.0); break;
 	case 'z': glRotatef(10.0, 0.0, 0.0, 1.0); break;
 	default: break;
@@ -89,12 +95,18 @@ void keyboard(unsigned char key, int x, int y)
 	case 's': glScalef(2.0f, 2.0f, 2.0f);    // 확대
 	case 'a': glScalef(0.9f, 0.9f, 0.9f);   // 축소
 
-	// 평행이동 (문서: t/r)
+		// 평행이동 (문서: t/r)
 	case 't': glTranslatef(0.2f, 0.0f, 0.0f); break; // 오른쪽
 	case 'r': glTranslatef(-0.2f, 0.0f, 0.0f); break;
 	
 	default: break;
 	}
+	if (key == 'f') {           
+		enlarged = true;
+		scaleFactor *= 2.0;
+		glutPostRedisplay();
+	}
+	
 	glutPostRedisplay();
 }
 

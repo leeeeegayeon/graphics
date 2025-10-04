@@ -13,19 +13,10 @@ void drawBox()
 	glVertex3f(0.15, 0.15,0.0);
 	glVertex3f(-0.15, 0.15,0.0);
 	glEnd();
-	
-}
-
-void display(void)
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	drawBox();
-	
 	glLoadIdentity();
 	// Translation & Rotation – 역으로 transformation 수행
-	glTranslatef(0.6, 0.0, 0.0); 
-	glRotatef(45.0, 0.0, 0.0, 1.0); 
+	glTranslatef(0.6, 0.0, 0.0);
+	glRotatef(45.0, 0.0, 0.0, 1.0);
 	// Blue Cube
 	glColor3f(0.0, 0.0, 1.0);
 	glutSolidCube(0.3);
@@ -60,6 +51,20 @@ void display(void)
 	glColor3f(0.0, 1.0, 1.0);
 	glutSolidCube(0.3);
 
+
+	
+}
+
+void display(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	glPushMatrix();
+	glRotatef(0.0, 1.0, 1.0, 1.0);
+	drawBox();
+	glPopMatrix();
+
+
 	glFlush();
 }
 
@@ -78,15 +83,15 @@ void keyboard(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
-	case 'x': xyzRotate('x'); 
-	case 'y': xyzRotate('y'); 
-	case 'z': xyzRotate('z'); 
-	case 's': glScalef(1.1f, 1.1f, 1.0f);    // 확대
-	case 'a': glScalef(0.9f, 0.9f, 1.0f);   // 축소
+	case 'x': xyzRotate('x'); break;
+	case 'y': xyzRotate('y'); break;
+	case 'z': xyzRotate('z'); break;
+	case 's': glScalef(2.0f, 2.0f, 2.0f);    // 확대
+	case 'a': glScalef(0.9f, 0.9f, 0.9f);   // 축소
 
 	// 평행이동 (문서: t/r)
-	case 't': glTranslatef(0.05f, 0.0f, 0.0f);   // 오른쪽
-	case 'r': glTranslatef(-0.05f, 0.0f, 0.0f); 
+	case 't': glTranslatef(0.2f, 0.0f, 0.0f); break; // 오른쪽
+	case 'r': glTranslatef(-0.2f, 0.0f, 0.0f); break;
 	
 	default: break;
 	}
